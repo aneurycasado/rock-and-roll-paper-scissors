@@ -7,14 +7,14 @@ var server = app.listen(process.env.PORT || 3000);
 var io = require('socket.io').listen(server, { log: false });
 io.set('log level', 0); // reduce logging
 
-function Player(x, y, speed, name,genre){
+function Player(x, y, speed, name){
     this.name = name;
     this.speed = speed; // movement in pixels per second
     this.x = 32 + (Math.random() * (800));
     this.y = 32 + (Math.random() * (500));
     this.width = 32;
     this.height = 32;
-    this.genre = genre;
+    this.genre = null;
 }
 
 function collison(smaller, bigger, padding){
@@ -57,7 +57,30 @@ io.sockets.on("connection",function(socket){
       console.log("works");
     }
   });
-
+  socket.on("genreChange",function(data){
+    console.log(data);
+    console.log("Before ",players[data.name]);
+    var player = players[data.name];
+    player.genre = data.genre;
+    if(player.genre === "rock"){
+      console.log("1")
+      player.speed = 400;
+      player.width = 64;
+      player.height = 64;
+    }
+    else if(player.genre === "country"){
+      console.log("2")
+      player.speed = 100;
+      player.width = 20;
+      player.height = 20;
+    }
+    else if(player.genre === "top40"){
+      console.log("3");
+      player.speed = 250;
+      player.width = 13;
+      player.height = 13;
+    }
+  });
 });
 module.exports = app; // Export it so it can be require('')'d
 // The path of our public directory. ([ROOT]/public)

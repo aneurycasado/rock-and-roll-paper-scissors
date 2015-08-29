@@ -12,6 +12,7 @@ socket.on('message', function() { console.log(arguments) });
 var players = {};
 socket.emit("songsAdded",players);
 socket.on("update_clients", function(data){
+	user = data[user.name];
 	players = data;
 });
 
@@ -70,14 +71,24 @@ var update = function (modifier) {
 
 // Draw everything
 var render = function () {
-    ctx.fillStyle = "rgb(100, 180, 100)";
 
+    ctx.fillStyle = "rgb(0, 0, 0)";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "rgb(255, 255, 255)";
+	ctx.font="30px Arial";
+	ctx.fillStyle = "rgb(200, 255, 255)";
+	ctx.fillText(players[user.name].genre, 20, 20);
 
 	for(var name in players){
-		ctx.fillRect(players[name].x, players[name].y, 32, 32);
+
+		if(!players[name].genre) ctx.fillStyle = "rgb(255, 255, 255)";
+		else if(players[name].genre == "rock") ctx.fillStyle = "rgb(100, 255, 255)";
+		else if(players[name].genre == "country") ctx.fillStyle = "rgb(255, 100, 255)";
+		else if(players[name].genre == "top40") ctx.fillStyle = "rgb(255, 255, 100)";
+
+		ctx.fillRect(players[name].x, players[name].y, players[name].width, players[name].height);
+
+		ctx.font="8px Arial";
 		ctx.fillText(players[name].name, players[name].x -9, players[name].y - 8);
 	}
 
@@ -87,8 +98,12 @@ var main = function () {
 	var now = Date.now();
 	var delta = now - then;
 
-	update(delta / 1000);
-	render();
+
+	if(players[user.name]){
+		update(delta / 1000);
+		render();
+
+	}
 
 	then = now;
 
