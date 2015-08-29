@@ -12,8 +12,23 @@ function Player(x, y, speed, name){
     this.y = 32 + (Math.random() * (500));
 }
 var players = {};
+//var elephant = {};
 io.sockets.on("connection",function(socket){
-  io.sockets.emit("updateClient",players);
+  io.sockets.emit("update_clients",players);
+
+  socket.on("move_input", function(data){
+
+    var thisPlayer = players[data.name];
+
+
+    if(data.direction == "up") thisPlayer.y += data.amount;
+    if(data.direction == "down") thisPlayer.y -= data.amount;
+    if(data.direction == "left") thisPlayer.x -= data.amount;
+    if(data.direction == "right") thisPlayer.x += data.amount;
+
+    console.log(players[data.name]);
+  });
+
 });
 module.exports = app; // Export it so it can be require('')'d
 // The path of our public directory. ([ROOT]/public)
@@ -47,3 +62,11 @@ app.use(function (req, res, next) {
 	console.log('made it')
 	next();
 });
+
+var update = function(){
+
+  io.sockets.emit("update_clients", players);
+
+};
+
+setInterval(update, 20);

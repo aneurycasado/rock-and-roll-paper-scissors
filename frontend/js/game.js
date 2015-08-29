@@ -6,13 +6,12 @@ document.body.appendChild(canvas);
 
 var socket = io.connect(window.location.hostname + ":3000");
 socket.on('connect', function(data) { });
-
 socket.on('error', function() { console.error(arguments) });
 socket.on('message', function() { console.log(arguments) });
 
 var players = {};
 
-socket.on("update_client", function(data){
+socket.on("update_clients", function(data){
 	players = data;
 });
 
@@ -29,15 +28,14 @@ addEventListener("keyup", function (e) {
 var URI = window.location.pathname.split( '/' );
 
 user = {
-	
 	name: URI[URI.length-1],
-	speed: 250.
-}
+	speed: 250,
+};
 
 
 // Update game objects
 var update = function (modifier) {
-	
+
 	var amount;
 	var direction;
 	var moved = false;
@@ -61,14 +59,13 @@ var update = function (modifier) {
 		amount = user.speed * modifier;
 		moved = true;
 	}
-	
+
 	if(moved){
-		
-		console.log("got here");
+
 		socket.emit("move_input", {amount: amount, direction: direction, name: user.name})
 	}
-	
-	
+
+
 };
 
 // Draw everything
@@ -78,10 +75,10 @@ var render = function () {
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = "rgb(255, 255, 255)";
-	
+
 	for(var name in players){
-		
-		ctx.fillRect(players[name].x, players[name].y, 10, 10);
+		ctx.fillRect(players[name].x, players[name].y, 32, 32);
+		ctx.fillText(players[name].name, players[name].x -9, players[name].y - 8);
 	}
 
 };
@@ -105,5 +102,4 @@ requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame
 
 // Let's play this game!
 var then = Date.now();
-reset();
 main();
