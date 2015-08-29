@@ -3,7 +3,7 @@ var ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 document.body.appendChild(canvas);
-console.log(window.location.hostname);
+
 var socket = io.connect(window.location.hostname + ":3000");
 socket.on('connect', function(data) {
 	console.log("We are on the client");
