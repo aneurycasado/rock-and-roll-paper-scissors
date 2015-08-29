@@ -5,23 +5,18 @@ canvas.height = window.innerHeight;
 document.body.appendChild(canvas);
 
 var socket = io.connect(window.location.hostname + ":3000");
-socket.on('connect', function(data) {
-	console.log("We are on the client");
-});
+socket.on('connect', function(data) { });
 
 socket.on('error', function() { console.error(arguments) });
 socket.on('message', function() { console.log(arguments) });
 
-var hero = {
-	speed: 256, // movement in pixels per second
-	x: 0,
-	y: 0
-};
-var monster = {
-	x: 0,
-	y: 0
-};
-var monstersCaught = 0;
+var players = {};
+
+socket.on("update_client", function(data){
+	
+	players = data.players;
+	
+});
 
 var keysDown = {};
 
@@ -34,56 +29,54 @@ addEventListener("keyup", function (e) {
 }, false);
 
 
-var reset = function () {
-	hero.x = canvas.width / 2;
-	hero.y = canvas.height / 2;
-
-	// Throw the monster somewhere on the screen randomly
-	monster.x = 32 + (Math.random() * (canvas.width - 64));
-	monster.y = 32 + (Math.random() * (canvas.height - 64));
-};
-
 
 // Update game objects
 var update = function (modifier) {
+	
+	var amount;
+	var direction;
+	var moved = false;
 	if (38 in keysDown) { // Player holding up
-		hero.y -= hero.speed * modifier;
+		amount = user.speed * modifier;
+		direction = "up";
+		moved = true;
 	}
 	if (40 in keysDown) { // Player holding down
-		hero.y += hero.speed * modifier;
+		amount = user.speed * modifier;
+		direction = "down";
+		moved = true;
 	}
 	if (37 in keysDown) { // Player holding left
-		hero.x -= hero.speed * modifier;
+		amount = user.speed * modifier;
+		direction = "left";
+		moved = true;
 	}
 	if (39 in keysDown) { // Player holding right
-		hero.x += hero.speed * modifier;
+		direction = "right";
+		amount = user.speed * modifier;
+		moved = true;
 	}
-
-	// Are they touching?
-	if (
-		hero.x <= (monster.x + 32)
-		&& monster.x <= (hero.x + 32)
-		&& hero.y <= (monster.y + 32)
-		&& monster.y <= (hero.y + 32)
-	) {
-		++monstersCaught;
-		reset();
+	
+	if(moved){
+		
+		socket.emit("move_input", {amount: amount, direction: direction})
 	}
+	
+	
 };
 
 // Draw everything
 var render = function () {
-    ctx.fillStyle = "rgb(100, 250, 100)";
+    ctx.fillStyle = "rgb(100, 180, 100)";
 
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = "rgb(255, 255, 255)";
-
-	ctx.fillRect(hero.x, hero.y, 10, 10);
-
-    ctx.fillStyle = "rgb(200, 0, 100)";
-
-	ctx.fillRect(monster.x, monster.y, 10, 10);
+	
+	for(var name in players){
+		
+		ctx.fillRect(players[name].x, players[name].y, 10, 10);
+	}
 
 };
 
