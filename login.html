@@ -22,7 +22,7 @@
         class='form-control input-name block-text'></input>
       </div>
 
-      <button type="button" id='join' class="btn btn-primary join block-text">Join Game</button>
+      <button type="submit" id='join' class="btn btn-primary join block-text">Join Game</button>
 
              
         
@@ -31,6 +31,27 @@
 
     
     <script src='//code.jquery.com/jquery-1.7.2.min.js'></script>
+    <script>
+      $( document ).ready(function() {
+        $('#join').on('click', function(e) {
+          redirect();
+          
+        });
+
+        $('#userName').keyup(function(e){
+          if(e.keyCode == 13) {
+            redirect();
+          }
+        });
+      });
+
+      function redirect() {
+        var param = ($('#userName').val());
+        window.location.replace(window.location.href+param);
+      }
+
+
+    </script>
   </body>
 
 </html>
