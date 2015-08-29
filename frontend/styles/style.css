@@ -1,16 +1,54 @@
 body {
-  background-image: url('../images/blueBack.jpg');
+  background-image: url(http://www.ehiyo.com/wp-content/uploads/2015/03/colorful-3d-cubes-wallpaper-picture-gallery-23nf11.jpg);
 }
 
+.block-text {
+  font-family: 'designer_blockregular';
+  width: 50%;
+  text-align: center;
+  font-size: 70px;
+  color: white;
+  margin: 50px auto;
+
+
+}
 
 .main {
-  width: 50%;
-  margin: 0 auto;
+  
+  background-color: rgba(0,0,0,0.85);
+  height: 400px;
+  margin-top: 100px;
+  border: 5px solid black;
 }
 
-.cubes {
-  border-radius: 50%;
-  height: 400px;
-  width: 400px;
-  background-image: url('../images/cubesSplash.png');
+.form-group .input-name {
+  width: 50%;
+  height: 70px;
+  text-align: center;
+  margin: 0 auto;
+  font-size: 45px;
+  padding: 10px;
 }
+
+#join {
+  width: 30%;
+  margin: 40px auto;
+  height: 50px;
+  display: block;
+  font-size: 25px;
+}
+
+
+@font-face {
+    font-family: 'designer_blockregular';
+    src: url('../desib___-webfont.eot');
+    src: url('../desib___-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../desib___-webfont.woff2') format('woff2'),
+         url('../desib___-webfont.woff') format('woff'),
+         url('../desib___-webfont.ttf') format('truetype'),
+         url('../desib___-webfont.svg#designer_blockregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
