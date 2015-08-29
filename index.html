@@ -1,56 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+   <head>
+       <style>
 
-<head>
-    <title>Flash Cards</title>
-    <!-- We've provided some styles for you, aren't we nice? -->
-    <link rel="stylesheet" type="text/css" href="/styles/reset.css" />
-    <link rel="stylesheet" type="text/css" href="/styles/style.css" />
-    <script src="/js/angular.js"></script>
-</head>
+		body, canvas{
 
-<body ng-app="flashCards" ng-cloak>
-  <scoreBoard></scoreBoard>
-  <addNewFlashCard></addNewFlashCard>
-  <displayCards></displayCards>
-    <!-- <div ng-controller="StatsController" id="statistics">
-        <div id="scoreboard">
-            <h3>Correct: <span>{{ scores.correct }}</span></h3>
-            <h3>Incorrect: <span>{{ scores.incorrect }}</span></h3>
-        </div>
-    </div>
-    <div ng-controller="NewCardController">
-      <form ng-submit="addFlashCard(newCard)" name="newCardForm" novalidate>
-        <question></question>
-        <category></category>
-        <answer></answer>
-        <button type='submit' class='btn-primary'>Submit</button>
-        <button type = "reset" ng-click = "reset()">Reset</button>
-      </form>
-    </div>
-    <div ng-controller="MainController">
-        <div class="cats">
-            <button border-hover ng-repeat="category in categories" class="category-button" ng-click="getCategoryCards(category)" ng-class="{ active: category === selectedCategory }">{{ category }}</button>
-            <button class="category-button" ng-click="getCategoryCards()" ng-class="{ active: selectedCategory === undefined }">All</button>
-            <loader ng-show="loading"></loader>
-        </div>
-        <flash-card card="flashCard" ng-hide="loading" ng-repeat="flashCard in flashCards | orderBy : 'question'"></flash-card>
-    </div> -->
-    <script src="/js/app.js"></script>
-    <script src="/js/controllers/main.controller.js"></script>
-    <script src="/js/controllers/score.controller.js"></script>
-    <script src="/js/controllers/newCard.controller.js"></script>
-    <script src="/js/factories/flashcard.factory.js"></script>
-    <script src="/js/factories/score.factory.js"></script>
-    <script src="/js/directives/loader/loader.js"></script>
-    <script src="/js/directives/flashcard/flashcard.js"></script>
-    <script src="/js/directives/boldborder/boldborder.js"></script>
-    <script src="/js/directives/answer/answer.js"></script>
-    <script src="/js/directives/category/category.js"></script>
-    <script src="/js/directives/question/question.js"></script>
-    <script src="/js/directives/scoreBoard/scoreBoard.js"></script>
-    <script src="/js/directives/addNewFlashCard/addNewFlashCard.js"></script>
-    <script src="/js/directives/displayCards/displayCards.js"></script>
-</body>
+			padding:0px;
+			margin:0px;
+			background:white;
+			overflow-y:hidden;
+			font-family:Helvetica;
 
+		}
+
+		canvas{
+			position:fixed;
+			top:0px;
+			z-index:1;
+
+		}
+	</style>
+       <script src='//code.jquery.com/jquery-1.7.2.min.js'></script>
+		<script src="/socket.io/socket.io.js"></script>
+   </head>
+   <body>
+         <script src="/js/game.js"></script>
+   </body>
 </html>

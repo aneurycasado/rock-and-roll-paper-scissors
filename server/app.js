@@ -1,16 +1,21 @@
 var path = require('path');
 var express = require('express');
-var FlashCardModel = require('./models/flash-card-model');
 var bodyParser = require('body-parser');
 
 var app = express(); // Create an express app!
+var server = app.listen(process.env.PORT || 3000);
+var io = require('socket.io').listen(server, { log: false });
+io.sockets.on("connection",function(socket){
+  console.log("We are connected");
+});
+
 module.exports = app; // Export it so it can be require('')'d
 
 // The path of our public directory. ([ROOT]/public)
 var publicPath = path.join(__dirname, '../frontend');
 
 // The path of our index.html file. ([ROOT]/index.html)
-var indexHtmlPath = path.join(__dirname, '../frontend/index.html');
+var indexHtmlPath = path.join(__dirname, '../index.html');
 
 // http://nodejs.org/docs/latest/api/globals.html#globals_dirname
 // for more information about __dirname
