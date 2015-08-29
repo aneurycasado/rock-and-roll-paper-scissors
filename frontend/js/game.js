@@ -70,7 +70,7 @@ var update = function (modifier) {
 
 // Draw everything
 var render = function () {
-	
+
 	ctx.fillStyle = "rgb(255, 255, 255)";
 	ctx.fillText(players[user.name].genre, 10, 10);
 
@@ -79,7 +79,7 @@ var render = function () {
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	for(var name in players){
-		
+
 		if(!players[name].genre) ctx.fillStyle = "rgb(255, 255, 255)";
 		else if(players[name].genre == "rock") ctx.fillStyle = "rgb(100, 255, 255)";
 		else if(players[name].genre == "country") ctx.fillStyle = "rgb(255, 100, 255)";
@@ -95,11 +95,11 @@ var main = function () {
 	var now = Date.now();
 	var delta = now - then;
 
-	
+
 	if(players[user.name]){
 		update(delta / 1000);
 		render();
-	
+
 	}
 
 	then = now;

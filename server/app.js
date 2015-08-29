@@ -60,8 +60,26 @@ io.sockets.on("connection",function(socket){
   socket.on("genreChange",function(data){
     console.log(data);
     console.log("Before ",players[data.name]);
-    players[data.name].genre = data.genre;
-    console.log("After ",players[data.name]);
+    var player = players[data.name];
+    player.genre = data.genre;
+    if(player.genre === "rock"){
+      console.log("1")
+      player.speed = 400;
+      player.width = 64;
+      player.height = 64;
+    }
+    else if(player.genre === "country"){
+      console.log("2")
+      player.speed = 100;
+      player.width = 20;
+      player.height = 20;
+    }
+    else if(player.genre === "top40"){
+      console.log("3");
+      player.speed = 250;
+      player.width = 13;
+      player.height = 13;
+    }
   });
 });
 module.exports = app; // Export it so it can be require('')'d
