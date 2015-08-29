@@ -13,9 +13,7 @@ socket.on('message', function() { console.log(arguments) });
 var players = {};
 
 socket.on("update_client", function(data){
-	
-	players = data.players;
-	
+	players = data;
 });
 
 var keysDown = {};
@@ -28,6 +26,13 @@ addEventListener("keyup", function (e) {
 	delete keysDown[e.keyCode];
 }, false);
 
+var URI = window.location.pathname.split( '/' );
+
+user = {
+	
+	name: URI[URI.length-1],
+	speed: 250.
+}
 
 
 // Update game objects
@@ -59,7 +64,8 @@ var update = function (modifier) {
 	
 	if(moved){
 		
-		socket.emit("move_input", {amount: amount, direction: direction})
+		console.log("got here");
+		socket.emit("move_input", {amount: amount, direction: direction, name: user.name})
 	}
 	
 	
