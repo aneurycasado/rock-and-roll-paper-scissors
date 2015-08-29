@@ -107,8 +107,8 @@ io.sockets.on("connection",function(socket){
     }
     else if(player.genre === "country"){
       console.log("2")
-      player.speed = 100;
-      player.width = 20;
+      player.speed = 300;
+      player.width = 60;
       player.height = 20;
     }
     else if(player.genre === "top40"){
