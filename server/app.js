@@ -63,7 +63,6 @@ io.sockets.on("connection",function(socket){
     }
     if(!illegal){
       players[data.name] = dummyPlayer;
-      console.log("works");
     }else{
       if(dummyPlayer.genre === "rock"){
         if(players[collidedPlayer].genre === "rock"){}
@@ -142,6 +141,11 @@ app.use(express.static(publicPath));
 app.get('/', function (req, res) {
     console.log('hi there');
     res.sendFile(loginPagePath);
+});
+
+app.get('/favicon.ico', function (req, res) {
+    console.log('favicon!');
+    res.status(404).send();
 });
 
 // If we're hitting our home page, serve up our index.html file!
