@@ -1,9 +1,0 @@
-<div class="categories">
- <label>Categories</label>
- <select ng-model='newCard.category' name='category' required>
-   <option name = "category" ng-repeat='category in categories'>{{ category }}</option>
- </select>
-   <span class="error" ng-show="newCardForm.category.$error.required">
-     Required!
-   </span>
-</div>

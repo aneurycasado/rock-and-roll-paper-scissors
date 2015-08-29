@@ -63,6 +63,7 @@ module.exports = app; // Export it so it can be require('')'d
 var publicPath = path.join(__dirname, '../frontend');
 // The path of our index.html file. ([ROOT]/index.html)
 var indexHtmlPath = path.join(__dirname, '../index.html');
+var loginPagePath = path.join(__dirname, '../login.html');
 
 // http://nodejs.org/docs/latest/api/globals.html#globals_dirname
 // for more information about __dirname
@@ -76,6 +77,11 @@ var indexHtmlPath = path.join(__dirname, '../index.html');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(publicPath));
+
+app.get('/', function (req, res) {
+    console.log('hi there');
+    res.sendFile(loginPagePath);
+});
 
 // If we're hitting our home page, serve up our index.html file!
 app.get('/:name', function (req, res) {

@@ -1,0 +1,16 @@
+body {
+  background-image: url('../images/blueBack.jpg');
+}
+
+
+.main {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.cubes {
+  border-radius: 50%;
+  height: 400px;
+  width: 400px;
+  background-image: url('../images/cubesSplash.png');
+}
