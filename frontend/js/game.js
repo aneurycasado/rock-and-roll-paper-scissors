@@ -74,9 +74,9 @@ var render = function () {
 
     ctx.fillStyle = "rgb(0, 0, 0)";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
-	
+
 	var text = ("Listening to: ") + (user.genre ? user.genre : "nothing");
-	
+
 	ctx.font="30px Arial";
 	ctx.fillText((user.x / 40) , 100, 100);
 
@@ -84,9 +84,9 @@ var render = function () {
 	ctx.fillText(text, 40, 40);
 
 	for(var name in players){
-		
-		if(player[name].dead) continue;
-			
+
+		if(players[name].dead) continue;
+
 		ctx.shadowColor = "white"; // string
 			//Color of the shadow;  RGB, RGBA, HSL, HEX, and other inputs are valid.
 		ctx.shadowOffsetX = 0; // integer
@@ -94,8 +94,8 @@ var render = function () {
 		ctx.shadowOffsetY = 0; // integer
 			//Vertical distance of the shadow, in relation to the text.
 		ctx.shadowBlur = 80; // integer
-			//Blurring effect to the shadow, the larger the value, the greater the blur.		
-		
+			//Blurring effect to the shadow, the larger the value, the greater the blur.
+
 		if(!players[name].genre) ctx.fillStyle = "rgb(255, 255, 255)";
 		else if(players[name].genre == "rock") ctx.fillStyle = "rgb(100, 255, 255)";
 		else if(players[name].genre == "country") ctx.fillStyle = "rgb(255, 100, 255)";
@@ -107,7 +107,7 @@ var render = function () {
 		ctx.fillText(players[name].name, players[name].x -9, players[name].y - 8);
 
 	}
-	
+
 	ctx.shadowColor = "none";// string
 	ctx.shadowBlur = 0; // integer
 

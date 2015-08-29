@@ -37,6 +37,7 @@ io.sockets.on("connection",function(socket){
   io.sockets.emit("update_clients",players);
   socket.on("move_input", function(data){
     var illegal = false;
+    var collidedPlayer = null;
     var thisPlayer = players[data.name];
     var dummyPlayer = {};
     copyPlayer(dummyPlayer, thisPlayer);
@@ -46,15 +47,51 @@ io.sockets.on("connection",function(socket){
     if(data.direction == "right") dummyPlayer.x += data.amount;
     for(var name in players){
       var player = players[name];
-      if(name !== dummyPlayer.name){
-        if(collison(dummyPlayer,player,{x:0,y:0})){
-          illegal = true;
+      if(name !== dummyPlayer.name && !player.dead){
+        if(dummyPlayer.width >= player.width){
+          if(collison(player,dummyPlayer,{x:0,y:0})){
+            collidedPlayer = name;
+            illegal = true;
+          }
+        }else if(dummyPlayer.width < player.width){
+          if(collison(dummyPlayer,player,{x:0,y:0})){
+            collidedPlayer = name;
+            illegal = true;
+          }
         }
       }
     }
     if(!illegal){
       players[data.name] = dummyPlayer;
       console.log("works");
+    }else{
+      if(dummyPlayer.genre === "rock"){
+        if(players[collidedPlayer].genre === "rock"){}
+        else if(players[collidedPlayer].genre === "country"){
+          players[collidedPlayer].dead = true;
+        }
+        else if(players[collidedPlayer].genre === "top40"){
+          players[dummyPlayer.name].dead = true;
+        }
+      }
+      if(dummyPlayer.genre === "country"){
+        if(players[collidedPlayer].genre === "rock"){
+          players[dummyPlayer.name].dead = true;
+        }
+        else if(players[collidedPlayer].genre === "country"){}
+        else if(players[collidedPlayer].genre === "top40"){
+          players[collidedPlayer].dead = true;
+        }
+      }
+      if(dummyPlayer.genre === "top40"){
+        if(players[collidedPlayer].genre === "rock"){
+          players[collidedPlayer].dead = true;
+        }
+        else if(players[collidedPlayer].genre === "country"){
+          players[dummyPlayer.name].dead = true;
+        }
+        else if(players[collidedPlayer].genre === "top40"){}
+      }
     }
   });
   socket.on("genreChange",function(data){
