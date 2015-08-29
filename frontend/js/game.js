@@ -13,6 +13,7 @@ var players = {};
 
 socket.on("update_clients", function(data){
 	players = data;
+	console.log(data);
 });
 
 var keysDown = {};

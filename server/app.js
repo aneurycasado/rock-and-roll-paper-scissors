@@ -5,28 +5,56 @@ var bodyParser = require('body-parser');
 var app = express(); // Create an express app!
 var server = app.listen(process.env.PORT || 3000);
 var io = require('socket.io').listen(server, { log: false });
+io.set('log level', 0); // reduce logging
+
 function Player(x, y, speed, name){
     this.name = name;
     this.speed = speed; // movement in pixels per second
     this.x = 32 + (Math.random() * (800));
     this.y = 32 + (Math.random() * (500));
+    this.width = 32;
+    this.height = 32;
 }
+
+function collison(smaller, bigger, padding){
+    if( (smaller.x >= bigger.x + padding.x && smaller.x <= bigger.x + bigger.width - padding.x) || (smaller.x + smaller.width >= bigger.x + padding.x && smaller.x + smaller.width <= bigger.x + bigger.width - padding.x) ){
+      if( (smaller.y >= bigger.y + padding.y && smaller.y <= bigger.y + bigger.height - padding.y) || (smaller.y + smaller.height >= bigger.y + padding.y && smaller.y + smaller.height <= bigger.y + bigger.height - padding.y) ){
+          return true;
+          console.log("hit");
+      }
+  }
+}
+
 var players = {};
+function copyPlayer(one,two){
+  for(var key in two){
+    one[key] = two[key];
+  }
+}
 //var elephant = {};
 io.sockets.on("connection",function(socket){
   io.sockets.emit("update_clients",players);
-
   socket.on("move_input", function(data){
-
+    var illegal = false;
     var thisPlayer = players[data.name];
-
-
-    if(data.direction == "up") thisPlayer.y += data.amount;
-    if(data.direction == "down") thisPlayer.y -= data.amount;
-    if(data.direction == "left") thisPlayer.x -= data.amount;
-    if(data.direction == "right") thisPlayer.x += data.amount;
-
-    console.log(players[data.name]);
+    var dummyPlayer = {};
+    copyPlayer(dummyPlayer, thisPlayer);
+    if(data.direction == "up") dummyPlayer.y -= data.amount;
+    if(data.direction == "down") dummyPlayer.y += data.amount;
+    if(data.direction == "left") dummyPlayer.x -= data.amount;
+    if(data.direction == "right") dummyPlayer.x += data.amount;
+    for(var name in players){
+      var player = players[name];
+      if(name !== dummyPlayer.name){
+        if(collison(dummyPlayer,player,{x:0,y:0})){
+          illegal = true;
+        }
+      }
+    }
+    if(!illegal){
+      players[data.name] = dummyPlayer;
+      console.log("works");
+    }
   });
 
 });
@@ -51,15 +79,15 @@ app.use(express.static(publicPath));
 
 // If we're hitting our home page, serve up our index.html file!
 app.get('/:name', function (req, res) {
-    var name = req.params.name;
-    var newPlayer = new Player(0,0,200,name);
-    players[name] = newPlayer;
-    console.log(players);
+    if(players[name] === undefined){
+      var name = req.params.name;
+      var newPlayer = new Player(0,0,200,name);
+      players[name] = newPlayer;
+    }
     res.sendFile(indexHtmlPath);
 });
 
 app.use(function (req, res, next) {
-	console.log('made it')
 	next();
 });
 
@@ -69,4 +97,4 @@ var update = function(){
 
 };
 
-setInterval(update, 20);
+setInterval(update, 40);
