@@ -1,8 +1,0 @@
-<div ng-controller="MainController">
-    <div class="cats">
-        <button border-hover ng-repeat="category in categories" class="category-button" ng-click="getCategoryCards(category)" ng-class="{ active: category === selectedCategory }">{{ category }}</button>
-        <button class="category-button" ng-click="getCategoryCards()" ng-class="{ active: selectedCategory === undefined }">All</button>
-        <loader ng-show="loading"></loader>
-    </div>
-    <flash-card card="flashCard" ng-hide="loading" ng-repeat="flashCard in flashCards | orderBy : 'question'"></flash-card>
-</div>

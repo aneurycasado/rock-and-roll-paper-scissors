@@ -10,10 +10,9 @@ socket.on('error', function() { console.error(arguments) });
 socket.on('message', function() { console.log(arguments) });
 
 var players = {};
-
+socket.emit("songsAdded",players);
 socket.on("update_clients", function(data){
 	players = data;
-	console.log(data);
 });
 
 var keysDown = {};

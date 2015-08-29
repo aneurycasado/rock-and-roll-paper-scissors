@@ -7,13 +7,14 @@ var server = app.listen(process.env.PORT || 3000);
 var io = require('socket.io').listen(server, { log: false });
 io.set('log level', 0); // reduce logging
 
-function Player(x, y, speed, name){
+function Player(x, y, speed, name,genre){
     this.name = name;
     this.speed = speed; // movement in pixels per second
     this.x = 32 + (Math.random() * (800));
     this.y = 32 + (Math.random() * (500));
     this.width = 32;
     this.height = 32;
+    this.genre = genre;
 }
 
 function collison(smaller, bigger, padding){
@@ -79,8 +80,8 @@ app.use(express.static(publicPath));
 
 // If we're hitting our home page, serve up our index.html file!
 app.get('/:name', function (req, res) {
+    var name = req.params.name;
     if(players[name] === undefined){
-      var name = req.params.name;
       var newPlayer = new Player(0,0,200,name);
       players[name] = newPlayer;
     }
