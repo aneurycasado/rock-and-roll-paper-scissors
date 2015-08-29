@@ -168,4 +168,4 @@ var update = function(){
 
 };
 
-setInterval(update, 40);
+setInterval(update, 30);
