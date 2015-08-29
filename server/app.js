@@ -13,8 +13,7 @@ function Player(x, y, speed, name){
 }
 var players = {};
 io.sockets.on("connection",function(socket){
-
-
+  socket.emit("playerCreated",players);
 });
 module.exports = app; // Export it so it can be require('')'d
 // The path of our public directory. ([ROOT]/public)
