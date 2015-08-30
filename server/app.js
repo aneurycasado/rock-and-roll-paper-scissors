@@ -154,6 +154,11 @@ app.get('/:name', function (req, res) {
     if(players[name] === undefined){
       var newPlayer = new Player(0,0,200,name);
       players[name] = newPlayer;
+    }else{
+      if(players[name].dead){
+        var newPlayer = new Player(0,0,200,name);
+        players[name] = newPlayer;
+      }
     }
     res.sendFile(indexHtmlPath);
 });
