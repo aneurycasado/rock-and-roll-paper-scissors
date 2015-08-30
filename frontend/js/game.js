@@ -4,6 +4,8 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 document.body.appendChild(canvas);
 
+var lastChange = Date.now() - 5000;
+
 var socket = io.connect(window.location.hostname + ":3000");
 socket.on('connect', function(data) { });
 socket.on('error', function() { console.error(arguments) });
@@ -77,11 +79,28 @@ var render = function () {
 
 	var text = ("Listening to: ") + (user.genre ? user.genre : "nothing");
 
-	ctx.font="30px Arial";
-	ctx.fillText((user.x / 40) , 100, 100);
-
+	var timer = Math.floor(((lastChange + 5000)- Date.now())/1000) + 1;
+	
+	var timeText = timer >= 1 ? "You can change song in " + timer + " seconds" : "You can change song now";
+	
+	ctx.font="25px Arial";
 	ctx.fillStyle = "rgb(255, 255, 255)";
+
+	ctx.fillText(timeText, 40, 70);
+
 	ctx.fillText(text, 40, 40);
+	
+		ctx.font="15px Arial";
+
+		ctx.fillText("Rock beats country, country beats pop, pop beats rock", 40, 100);
+		ctx.fillStyle = "rgb(100, 255, 255)";
+		ctx.fillText("Rock = 1", 40, 115);
+		ctx.fillStyle = "rgb(255, 100, 255)"
+		ctx.fillText("Country = 2", 40, 130);
+		ctx.fillStyle = "rgb(255, 255, 100)"
+		ctx.fillText("Top40 = 3", 40, 145);
+
+	
 
 	for(var name in players){
 
